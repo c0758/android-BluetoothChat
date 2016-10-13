@@ -192,9 +192,6 @@ public class BluetoothChatService {
             mInsecureAcceptThread = null;
         }
 
-        // Start the thread to manage the connection and perform transmissions
-        mConnectedThread = new ConnectedThread(socket, socketType);
-        mConnectedThread.start();
 
         // Send the name of the connected device back to the UI Activity
         Message msg = mHandler.obtainMessage(Constants.MESSAGE_DEVICE_NAME);
@@ -204,6 +201,11 @@ public class BluetoothChatService {
         mHandler.sendMessage(msg);
 
         setState(STATE_CONNECTED);
+        
+        //c0758 Ryan : you should setState before start ConnectedThread 
+        // Start the thread to manage the connection and perform transmissions
+        mConnectedThread = new ConnectedThread(socket, socketType);
+        mConnectedThread.start();
     }
 
     /**
